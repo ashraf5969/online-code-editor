@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Code Editor</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-code"></i> CodeMaster
+        </div>
+        <div class="actions">
+            <button id="ai-btn" class="btn" style="background: #8e44ad; color: white;"><i class="fas fa-magic"></i> AI Generate</button>
+            <button class="btn" onclick="window.location.href='dashboard.html'"><i class="fas fa-columns"></i> Dashboard</button>
+            <button id="save-db-btn" class="btn"><i class="fas fa-save"></i> Save</button>
+            <button id="snippets-btn" class="btn"><i class="fas fa-folder-open"></i> My Snippets</button>
+            <button id="theme-btn" class="btn"><i class="fas fa-adjust"></i> Theme</button>
+            <button id="reset-btn" class="btn"><i class="fas fa-trash"></i> Reset</button>
+            <button id="download-btn" class="btn"><i class="fas fa-download"></i> Download</button>
+            <button id="run-btn" class="btn btn-primary"><i class="fas fa-play"></i> Run</button>
+        </div>
+    </header>
+
+    <!-- Modal for AI Generator -->
+    <div id="ai-modal" class="modal" style="display:none; position: fixed; top: 15%; left: 50%; transform: translateX(-50%); width: 400px; background: var(--bg-color); z-index: 100; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 20px; overflow-y: auto;">
+        <div style="display:flex; justify-content: space-between; margin-bottom: 10px;">
+            <h2 style="margin: 0; color: #8e44ad;"><i class="fas fa-magic"></i> Generate Code with AI</h2>
+            <button id="close-ai-modal" style="background:none; border:none; color:var(--text-color); font-size:20px; cursor:pointer;">&times;</button>
+        </div>
+        <textarea id="ai-prompt" rows="5" style="width: 100%; border-radius: 5px; padding: 10px; background: var(--editor-bg); color: var(--text-color); border: 1px solid var(--border-color); resize: vertical;" placeholder="E.g., Create a digital clock with a dark theme..."></textarea>
+        <button id="generate-ai-btn" class="btn btn-primary" style="background: #8e44ad; width: 100%; margin-top: 15px;"><i class="fas fa-robot"></i> Generate Now</button>
+        <div id="ai-loading" style="display:none; text-align:center; margin-top: 10px; color:#8e44ad;"><i class="fas fa-spinner fa-spin"></i> AI is thinking...</div>
+    </div>
+
+    <!-- Modal for Snippets -->
+    <div id="snippets-modal" class="modal" style="display:none; position: fixed; top: 10%; left: 10%; right: 10%; bottom: 10%; background: var(--bg-color); z-index: 100; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 20px; overflow-y: auto;">
+        <div style="display:flex; justify-content: space-between; margin-bottom: 20px;">
+            <h2>My Snippets</h2>
+            <button id="close-modal-btn" class="btn btn-danger">Close</button>
+        </div>
+        <div style="display:flex; justify-content: space-between; margin-bottom: 20px;">
+            <input type="text" id="search-snippets" placeholder="Search title..." style="padding: 8px; border-radius: 4px;">
+            <select id="filter-language" style="padding: 8px; border-radius: 4px;">
+                <option value="">All Languages</option>
+                <option value="web">Web HTML/CSS/JS</option>
+            </select>
+            <select id="sort-snippets" style="padding: 8px; border-radius: 4px;">
+                <option value="createdAt:desc">Latest</option>
+                <option value="createdAt:asc">Oldest</option>
+            </select>
+        </div>
+        <ul id="snippets-list" style="list-style: none; padding: 0;"></ul>
+    </div>
+    
+    <main class="main-layout">
+        <div class="left-panel">
+            <div class="tabs">
+                <button class="tab active" data-lang="html"><i class="fab fa-html5"></i> HTML</button>
+                <button class="tab" data-lang="css"><i class="fab fa-css3-alt"></i> CSS</button>
+                <button class="tab" data-lang="javascript"><i class="fab fa-js"></i> JS</button>
+            </div>
+            <div id="editor-container"></div>
+        </div>
+        <div class="resizer" id="dragMe"></div>
+        <div class="right-panel">
+            <div class="preview-header">
+                <span>Output <i class="fas fa-desktop"></i></span>
+            </div>
+            <iframe id="preview-frame" sandbox="allow-scripts allow-modals"></iframe>
+        </div>
+    </main>
+
+    <!-- Monaco Editor Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
+    </script>
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>
